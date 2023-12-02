@@ -32,7 +32,7 @@ int read_int(char **s)
 	return num;
 }
 
-int possible_game(char *line, int *id)
+int possible_game(char *line, int *id, int *pow)
 {
 	if (!match(line, "Game ")) {
 		return 0;
@@ -41,10 +41,11 @@ int possible_game(char *line, int *id)
 	line += 5;
 	*id = read_int(&line);
 	line += 2;
-	
-	int rsum = 0;
-	int gsum = 0;
-	int bsum = 0;
+
+	int npos = 0;
+	int rsum = 0, rmax = -1;
+	int gsum = 0, gmax = -1;
+	int bsum = 0, bmax = -1;
 	while (*line && *line != '\n') {
 		if (*line == ' ' || *line == ',') {
 			line++;
@@ -52,7 +53,7 @@ int possible_game(char *line, int *id)
 
 		if (*line == ';') {
 			if (rsum > HAS_RED || gsum > HAS_GREEN || bsum > HAS_BLUE) {
-				return 0;
+				npos = 1;
 			}
 
 			rsum = gsum = bsum = 0;
@@ -64,31 +65,43 @@ int possible_game(char *line, int *id)
 		if (match(line, "red")) {
 			rsum += n;
 			line += 3;
+			if (n > rmax)
+				rmax = n;
 		} else if (match(line, "green")) {
 			gsum += n;
 			line += 5;
+			if (n > gmax)
+				gmax = n;
 		} else if (match(line, "blue")) {
 			bsum += n;
 			line += 4;
+			if (n > bmax)
+				bmax = n;
 		}
 	}
 
-	return !(rsum > HAS_RED || gsum > HAS_GREEN || bsum > HAS_BLUE);
+	*pow = rmax * gmax * bmax;
+
+	return npos ? 0 : !(rsum > HAS_RED || gsum > HAS_GREEN || bsum > HAS_BLUE);
 }
 
 int main(void)
 {
-	char line[128];
+	char line[1024];
 	int sum = 0;
-	int id;
+	int psum = 0;
+	int id, pow;
 
-	while (fgets(line, 128, stdin) != NULL) {
-		if (possible_game(line, &id)) {
+	while (fgets(line, 1024, stdin) != NULL) {
+		if (possible_game(line, &id, &pow)) {
 			sum += id;
 		}
+		
+		psum += pow;
 	}
 
 	printf("%i\n", sum);
+	printf("%i\n", psum);
 
 	return 0;
 }
