@@ -2,3 +2,4 @@ test*.txt
 main
 README.md
 clean/
+gold
