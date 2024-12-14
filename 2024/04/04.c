@@ -25,80 +25,14 @@ int main(void)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			if (grid[y][x] == 'X')
+			if (grid[y][x] == 'A')
 			{
-				// XMAS
-				if ((x + 3) < w
-				 && grid[y    ][x + 1] == 'M'
-				 && grid[y    ][x + 2] == 'A'
-				 && grid[y    ][x + 3] == 'S')
-					sum++;
-
-				// SAMX
-				if ((x - 3) >= 0
-				 && grid[y    ][x - 1] == 'M'
-				 && grid[y    ][x - 2] == 'A'
-				 && grid[y    ][x - 3] == 'S')
-					sum++;
-
-				// X
-				// M
-				// A
-				// S
-				if ((y + 3) < h
-				 && grid[y + 1][x    ] == 'M'
-				 && grid[y + 2][x    ] == 'A'
-				 && grid[y + 3][x    ] == 'S')
-					sum++;
-
-				// S
-				// A
-				// M
-				// X
-				if ((y - 3) >= 0
-				 && grid[y - 1][x    ] == 'M'
-				 && grid[y - 2][x    ] == 'A'
-				 && grid[y - 3][x    ] == 'S')
-					sum++;
-
-				// X
-				//  M
-				//   A
-				//    S
-				if ((x + 3) < w && (y + 3) < h
-				 && grid[y + 1][x + 1] == 'M'
-				 && grid[y + 2][x + 2] == 'A'
-				 && grid[y + 3][x + 3] == 'S')
-					sum++;
-
-				//    X
-				//   M
-				//  A
-				// S
-				if ((x - 3) >= 0 && (y + 3) < h
-				 && grid[y + 1][x - 1] == 'M'
-				 && grid[y + 2][x - 2] == 'A'
-				 && grid[y + 3][x - 3] == 'S')
-					sum++;
-
-				// S
-				//  A
-				//   M
-				//    X
-				if ((x - 3) >= 0 && (y - 3) >= 0
-				 && grid[y - 1][x - 1] == 'M'
-				 && grid[y - 2][x - 2] == 'A'
-				 && grid[y - 3][x - 3] == 'S')
-					sum++;
-
-				//    S
-				//   A
-				//  M
-				// X
-				if ((x + 3) < w && (y - 3) >= 0
-				 && grid[y - 1][x + 1] == 'M'
-				 && grid[y - 2][x + 2] == 'A'
-				 && grid[y - 3][x + 3] == 'S')
+				if ((x - 1) >= 0 && (x + 1) < w
+				 && (y - 1) >= 0 && (y + 1) < h
+				 && ((grid[y - 1][x - 1] == 'M' && grid[y + 1][x + 1] == 'S')
+				  || (grid[y - 1][x - 1] == 'S' && grid[y + 1][x + 1] == 'M'))
+				 && ((grid[y - 1][x + 1] == 'M' && grid[y + 1][x - 1] == 'S')
+				  || (grid[y - 1][x + 1] == 'S' && grid[y + 1][x - 1] == 'M')))
 					sum++;
 			}
 		}
