@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define LNSZ	256	
 #define SIGN(i)	( (i) < 0 ? -1 : 1 )
